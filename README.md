@@ -59,6 +59,8 @@ Using lazy.nvim:
 
 ### Remove Unnecessary Using Statements
 
+![csharp_fix_usings](https://github.com/iabdelkareem/csharp.nvim/assets/13891133/3902ef06-b2a0-4be8-b138-222c820cf4d6)
+
 Removes all unnecessary using statements from a document. Trigger this feature via the Command `:CsharpFixUsings` or use the Lua function below.
 
 ```lua
@@ -92,6 +94,8 @@ vim.api.nvim_create_autocmd("LspAttach", {
 
 ### Fix All
 
+![csharp_fix_all](https://github.com/iabdelkareem/csharp.nvim/assets/13891133/5d815ce4-b9b1-40b9-a049-df1570bea100)
+
 This feature allows developers to efficiently resolve a specific problem across multiple instances in the codebase (e.g., a document, project, or solution) with a single command. You can run this feature using the Command `:CsharpFixAll` or the Lua function below. When the command runs, it'll launch a dropdown menu asking you to choose the scope in which you want the plugin to search for fixes before it presents the different options to you.
 
 ```lua
@@ -99,6 +103,8 @@ require("csharp").fix_all()
 ```
 
 ### Enhanced Go-To-Definition (Decompilation Support)
+
+![csharp_go_to_definition](https://github.com/iabdelkareem/csharp.nvim/assets/13891133/1b8ea6fa-6d6b-4cab-a060-2123247b0d74)
 
 Similar to [omnisharp-extended-lsp.nvim](https://github.com/Hoffs/omnisharp-extended-lsp.nvim), this feature allows developers to navigate to the definition of a symbol in the codebase with decompilation support for external code.
 
