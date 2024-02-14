@@ -23,7 +23,7 @@ end
 local function get_omnisharp_cmd()
   local config = config_store.get_config().lsp
 
-  if config.cmd_path ~= nil then
+  if config.cmd_path ~= "" then
     return config.cmd_path
   end
 
@@ -34,13 +34,13 @@ local function get_omnisharp_cmd()
     package:install()
   end
 
-  return package:get_install_path()
+  return package:get_install_path() .. "/omnisharp"
 end
 
 local function start_omnisharp(args)
   local buffer = args.buf
   local root_dir = get_root_dir(buffer)
-  local omnisharp_cmd = get_omnisharp_cmd() .. "/omnisharp"
+  local omnisharp_cmd = get_omnisharp_cmd()
   local config = config_store.get_config().lsp
 
   local cmd = {

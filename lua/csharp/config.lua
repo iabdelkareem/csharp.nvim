@@ -5,7 +5,7 @@ local default_config = {
   ---@class CsharpConfig.Lsp
   lsp = {
     --- @type string?
-    cmd_path = nil,
+    cmd_path = "",
     enable_editor_config_support = true,
     organize_imports = true,
     load_projects_on_demand = false,
