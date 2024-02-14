@@ -62,6 +62,10 @@ local function start_omnisharp(args)
     "MsBuild:EnablePackageAutoRestore=" .. tostring(config.enable_package_auto_restore),
   }
 
+  if config.debug then
+    table.insert(cmd, 2, "-d")
+  end
+
   vim.lsp.start({
     name = "omnisharp",
     cmd = cmd,
@@ -72,6 +76,10 @@ local function start_omnisharp(args)
 end
 
 function M.setup()
+  if not config_store.get_config().lsp.enable then
+    return
+  end
+
   local lsp_group = vim.api.nvim_create_augroup("CsharpNvim", { clear = false })
 
   vim.api.nvim_create_autocmd("FileType", {

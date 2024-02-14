@@ -4,6 +4,7 @@ local M = {}
 local default_config = {
   ---@class CsharpConfig.Lsp
   lsp = {
+    enable = true,
     --- @type string?
     cmd_path = "",
     enable_editor_config_support = true,
@@ -15,6 +16,7 @@ local default_config = {
     analyze_open_documents_only = false,
     default_timeout = 1000,
     enable_package_auto_restore = true,
+    debug = false,
   },
   ---@class CsharpConfig.Logging
   logging = {
