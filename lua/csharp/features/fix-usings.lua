@@ -21,7 +21,6 @@ end
 
 function M.execute()
   local buffer = vim.api.nvim_get_current_buf()
-  local clients = vim.lsp.get_active_clients({ buffer = buffer })
   local omnisharp_client = utils.get_omnisharp_client(buffer)
   local config = config_store.get_config()
 
