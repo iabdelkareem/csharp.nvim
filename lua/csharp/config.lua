@@ -22,6 +22,11 @@ local default_config = {
     ---@type fun(client: lsp.Client, bufnr: number)|nil
     on_attach = nil,
   },
+  --- @class CsharpConfig.Dap
+  dap = {
+    --- @type string?
+    adapter_name = nil,
+  },
   ---@class CsharpConfig.Logging
   logging = {
     level = "INFO",

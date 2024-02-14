@@ -1,6 +1,17 @@
 local M = {}
 local utils = require("csharp.utils")
 
+--- @class OmnisharpMetadataSource
+--- @field AssemblyName string
+--- @field TypeName string
+--- @field ProjectName string
+--- @field VersionNumber string
+--- @field Language string
+
+--- @class OmnisharpMetadataResponse
+--- @field Source string
+--- @field SourceName string
+
 --- @class GetMetadataParams
 --- @field metadata_source OmnisharpMetadataSource
 

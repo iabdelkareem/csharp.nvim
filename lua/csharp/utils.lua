@@ -38,4 +38,13 @@ function M.get_omnisharp_client(buffer)
   end
 end
 
+function M.run_async(fn)
+  local co = coroutine.create(fn)
+  local success, result = coroutine.resume(co)
+
+  if not success then
+    require("csharp.log").error("Error has occurred!", { feature = "run-async", error_message = result, stack_trace = debug.traceback(co) })
+  end
+end
+
 return M

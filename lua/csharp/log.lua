@@ -1,14 +1,10 @@
 local M = {}
-local logger = nil
 
 function M.setup()
   local ok, structlog = pcall(require, "structlog")
 
   if not ok then
-    vim.notify(
-      "csharp.nvim: structlog.nvim dependency is not installed. This won't prevent the plugin from working, but it's recommended to install it.",
-      vim.log.levels.WARN
-    )
+    vim.notify("csharp.nvim: structlog.nvim dependency is not installed. This won't prevent the plugin from working, but it's recommended to install it.", vim.log.levels.WARN)
     return
   end
 
@@ -20,18 +16,20 @@ function M.setup()
           processors = {
             structlog.processors.StackWriter({ "line", "file" }, { max_parents = 3 }),
             structlog.processors.Timestamper("%H:%M:%S"),
+            function(log)
+              log["buffer"] = vim.api.nvim_get_current_buf()
+              return log
+            end,
           },
           formatter = structlog.formatters.Format( --
-            "%s [%s] %s: %-30s",
-            { "timestamp", "level", "logger_name", "msg" }
+            "%s [%s] %s: %-30s buffer=%s",
+            { "timestamp", "level", "logger_name", "msg", "buffer" }
           ),
           sink = structlog.sinks.File(vim.fn.stdpath("log") .. "/csharp.log"),
         },
       },
     },
   })
-
-  logger = structlog.get_logger("csharp_logger")
 end
 
 ---@param level string
@@ -39,11 +37,12 @@ end
 ---@param data table?
 function M.log(level, message, data)
   local config = require("csharp.config").get_config().logging
+  local logger = require("structlog").get_logger("csharp_logger")
   if logger == nil or vim.log.levels[level] < vim.log.levels[config.level] then
     return
   end
 
-  require("structlog").get_logger("csharp_logger"):log(vim.log.levels[level], message, data)
+  logger:log(vim.log.levels[level] + 1, message, data)
 end
 
 ---@param message string

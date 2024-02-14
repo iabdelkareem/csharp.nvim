@@ -6,7 +6,7 @@
 
 ## Prerequisites
 
-- Install [fd](https://github.com/sharkdp/fd#installation) locally.
+- Locally Install [fd](https://github.com/sharkdp/fd#installation).
 
 ## 🚀 Installation
 
@@ -24,8 +24,6 @@ Using lazy.nvim:
   end
 }
 ```
-
-:warning: This plugin removes the usage of lspconfig to configure and run Omnisharp, and it shouldn't be used alongside lspconfig. Please remove the configuration of omnisharp in lspconfig. If you want to use lspconfig to configure Omnisharp, you can still use the other functionality provided by the plugin (e.g., remove unused using statements, etc.). However, you should set `config.lsp.enable` to `false`.
 
 ## ⚙ Configuration
 
@@ -59,20 +57,56 @@ Using lazy.nvim:
         -- The minimum log level.
         level = "INFO",
     },
+    dap = {
+        -- When set, csharp.nvim won't launch install and debugger automatically. Instead, it'll use the debug adapter specified.
+        --- @type string?
+        adapter_name = nil,
+    }
 }
 ```
 
 ## 🌟 Features
 
-### Remove Unnecessary Using Statements
+### Automatically Installs and Configures LSP
 
-![csharp_fix_usings](https://github.com/iabdelkareem/csharp.nvim/assets/13891133/3902ef06-b2a0-4be8-b138-222c820cf4d6)
+The plugin will automatically install the LSP `omnisharp` and configure it for use.
+
+_:warning: Remove omnisharp configuration from lspconfig as the plugin handles configuring and running omnisharp. If you prefer configuring omnisharp manually using lspconfig, disable this feature by setting lsp.enable = false in the configuration._
+
+<hr>
+
+### Effortless Debugging
+
+The plugin will automatically install the debugger `netcoredbg` and configure it for use. The goal of this functionality is to provide an effortless debugging experience to .NET developers, all you need to do is install the plugin and execute `require("csharp").debug_project()` and the plugin will take care of the rest. To make this possible the debugger supports the following features:
+
+- Automatically detects the executable project in the solution, or let you select if there are multiple executable projects.
+- Supports [launch settings](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/environments?view=aspnetcore-8.0#lsj) to configure `environmentVariables`, `applicationUrl`, and `commandLineArgs`.
+  - _Support is limited to launch profiles with `CommandName == Project`._
+- Uses .NET CLI to build the debugee project.
+
+![debugging](https://gist.github.com/assets/13891133/ff442270-4c0e-46d6-bf8e-25deab8dec37)
+
+_In the illustration above, there's a solution with 3 projects, 2 of which are executable, and only one has launch settings file._
+
+<hr>
+
+### Run Project
+
+Similar to the debugger, the plugin exposes the function `require("csharp").run_project()` that supports selection of an executable project, launch profile, builds and runs the project.
+
+![run](https://github.com/iabdelkareem/csharp.nvim/assets/13891133/aa1df4e3-d3ce-43b8-a0d5-476e1b567125)
+
+<hr>
+
+### Remove Unnecessary Using Statements
 
 Removes all unnecessary using statements from a document. Trigger this feature via the Command `:CsharpFixUsings` or use the Lua function below.
 
 ```lua
 require("csharp").fix_usings()
 ```
+
+![csharp_fix_usings](https://github.com/iabdelkareem/csharp.nvim/assets/13891133/3902ef06-b2a0-4be8-b138-222c820cf4d6)
 
 _TIP: You can run this feature automatically before a buffer is saved._
 
@@ -99,9 +133,9 @@ vim.api.nvim_create_autocmd("LspAttach", {
 })
 ```
 
-### Fix All
+<hr>
 
-![csharp_fix_all](https://github.com/iabdelkareem/csharp.nvim/assets/13891133/5d815ce4-b9b1-40b9-a049-df1570bea100)
+### Fix All
 
 This feature allows developers to efficiently resolve a specific problem across multiple instances in the codebase (e.g., a document, project, or solution) with a single command. You can run this feature using the Command `:CsharpFixAll` or the Lua function below. When the command runs, it'll launch a dropdown menu asking you to choose the scope in which you want the plugin to search for fixes before it presents the different options to you.
 
@@ -109,9 +143,11 @@ This feature allows developers to efficiently resolve a specific problem across 
 require("csharp").fix_all()
 ```
 
-### Enhanced Go-To-Definition (Decompilation Support)
+![csharp_fix_all](https://github.com/iabdelkareem/csharp.nvim/assets/13891133/5d815ce4-b9b1-40b9-a049-df1570bea100)
 
-![csharp_go_to_definition](https://github.com/iabdelkareem/csharp.nvim/assets/13891133/1b8ea6fa-6d6b-4cab-a060-2123247b0d74)
+<hr>
+
+### Enhanced Go-To-Definition (Decompilation Support)
 
 Similar to [omnisharp-extended-lsp.nvim](https://github.com/Hoffs/omnisharp-extended-lsp.nvim), this feature allows developers to navigate to the definition of a symbol in the codebase with decompilation support for external code.
 
@@ -119,9 +155,26 @@ Similar to [omnisharp-extended-lsp.nvim](https://github.com/Hoffs/omnisharp-exte
 require("csharp").go_to_definition()
 ```
 
+![csharp_go_to_definition](https://github.com/iabdelkareem/csharp.nvim/assets/13891133/1b8ea6fa-6d6b-4cab-a060-2123247b0d74)
+
+<hr>
+
+## :beetle: Reporting Bugs
+
+1. Set debug level to TRACE via the configurations.
+2. Reproduce the issue.
+3. Open an issue in [GitHub](https://github.com/iabdelkareem/csharp.nvim/issues) with the following details:
+   - Description of the bug.
+   - How to reproduce.
+   - Relevant logs, if possible.
+
+## :heart_eyes: Contributing & Feature Suggestions
+
+I'd love to hear your ideas and suggestions for new features! Feel free to create an issue and share your thoughts. We can't wait to discuss them and bring them to life!
+
 ## TODO
 
-- [ ] Setup Debugger
+- [x] Setup Debugger
 - [ ] Solution Explorer
 - [ ] Switching Solution
 - [ ] Support Source Generator

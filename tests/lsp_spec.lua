@@ -10,7 +10,7 @@ describe("get_root_dir", function()
   before_each(function()
     _G._TEST = true
     snapshot = assert:snapshot()
-    lsp = require("csharp.lsp")
+    lsp = require("csharp.modules.lsp")
   end)
 
   after_each(function()
@@ -87,7 +87,7 @@ describe("get_omnisharp_cmd", function()
   before_each(function()
     _G._TEST = true
     snapshot = assert:snapshot()
-    lsp = require("csharp.lsp")
+    lsp = require("csharp.modules.lsp")
   end)
 
   after_each(function()
