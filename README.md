@@ -2,15 +2,13 @@
 
 `csharp.nvim` is a Neovim plugin written in Lua, powered by [omnisharp-roslyn](https://github.com/OmniSharp/omnisharp-roslyn), that aims to enhance the development experience for .NET developers.
 
-##### NOTE
-
-_This plugin is in early development stage._
+**🚧 NOTE: This plugin is in early development stage.**
 
 ## Prerequisites
 
 - Install [fd](https://github.com/sharkdp/fd#installation) locally.
 
-## Installation
+## 🚀 Installation
 
 Using lazy.nvim:
 
@@ -27,14 +25,17 @@ Using lazy.nvim:
 }
 ```
 
-## Configuration
+:warning: This plugin removes the usage of lspconfig to configure and run Omnisharp, and it shouldn't be used alongside lspconfig. Please remove the configuration of omnisharp in lspconfig. If you want to use lspconfig to configure Omnisharp, you can still use the other functionality provided by the plugin (e.g., remove unused using statements, etc.). However, you should set `config.lsp.enable` to `false`.
+
+## ⚙ Configuration
 
 ```lua
 -- These are the default values
 {
     lsp = {
-        -- When set to true, csharp.nvim won't install omnisharp automatically and use it via mason.
-        -- Instead, the omnisharp instance in the cmd_path will be used.
+        -- When set to false, csharp.nvim won't launch omnisharp automatically.
+        enable = true,
+        -- When set, csharp.nvim won't install omnisharp automatically. Instead, the omnisharp instance in the cmd_path will be used.
         cmd_path = nil,
         -- The default timeout when communicating with omnisharp
         default_timeout = 1000,
@@ -47,6 +48,12 @@ Using lazy.nvim:
         include_prerelease_sdks = true,
         analyze_open_documents_only = false,
         enable_package_auto_restore = true,
+        -- Launches omnisharp in debug mode
+        debug = false,
+        -- The capabilities to pass to the omnisharp server
+        capabilities = nil,
+        -- on_attach function that'll be called when the LSP is attached to a buffer
+        on_attach = nil
     },
     logging = {
         -- The minimum log level.
@@ -55,7 +62,7 @@ Using lazy.nvim:
 }
 ```
 
-## Features
+## 🌟 Features
 
 ### Remove Unnecessary Using Statements
 

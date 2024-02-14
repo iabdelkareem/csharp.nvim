@@ -17,6 +17,10 @@ local default_config = {
     default_timeout = 1000,
     enable_package_auto_restore = true,
     debug = false,
+    --- @type table<string, any>|nil
+    capabilities = nil,
+    ---@type fun(client: lsp.Client, bufnr: number)|nil
+    on_attach = nil,
   },
   ---@class CsharpConfig.Logging
   logging = {

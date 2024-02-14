@@ -70,6 +70,8 @@ local function start_omnisharp(args)
     name = "omnisharp",
     cmd = cmd,
     root_dir = root_dir,
+    capabilities = config.capabilities,
+    on_attach = config.on_attach,
   }, {
     bufnr = buffer,
   })
