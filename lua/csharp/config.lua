@@ -28,23 +28,7 @@ local default_config = {
 ---@param user_config table
 ---@return table
 local function merge(default_config, user_config)
-  local config = {}
-
-  for key, default_value in pairs(default_config) do
-    local user_value = user_config[key]
-
-    if user_value == nil then
-      config[key] = default_value
-    elseif type(user_value) ~= type(default_value) then
-      config[key] = default_value
-    elseif type(user_value) == "table" then
-      config[key] = merge(default_value, user_value)
-    else
-      config[key] = user_value
-    end
-  end
-
-  return config
+  return vim.tbl_deep_extend("force", default_config, user_config)
 end
 
 function M.get_defaults()
