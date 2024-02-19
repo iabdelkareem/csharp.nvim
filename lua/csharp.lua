@@ -5,7 +5,7 @@ local function setup(user_config)
   config.save(user_config)
 
   require("csharp.commands").setup()
-  require("csharp.lsp").setup()
+  require("csharp.modules.lsp").setup()
   require("csharp.log").setup()
 end
 
@@ -14,4 +14,6 @@ return {
   fix_usings = require("csharp.features.fix-usings").execute,
   fix_all = require("csharp.features.fix-all").select_scope_and_execute,
   go_to_definition = require("csharp.features.go-to-definition").execute,
+  debug_project = require("csharp.features.debugger").execute,
+  run_project = require("csharp.features.code-runner").execute,
 }

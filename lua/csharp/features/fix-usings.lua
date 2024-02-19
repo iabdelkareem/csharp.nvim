@@ -5,18 +5,18 @@ local logger = require("csharp.log")
 
 local function handle(response, buffer)
   if response.err ~= nil then
-    logger.error("LSP client responded with error", { feature = "fix-usings", buffer = buffer, error = response.err })
+    logger.error("LSP client responded with error", { feature = "fix-usings", error = response.err })
     return
   end
 
   if vim.tbl_isempty(response.result.Changes) then
-    logger.info("No changes found", { feature = "fix-usings", buffer = buffer })
+    logger.info("No changes found", { feature = "fix-usings" })
     return
   end
 
   local text_edits = utils.omnisharp_text_changes_to_text_edits(response.result.Changes)
   vim.lsp.util.apply_text_edits(text_edits, buffer, "utf-8")
-  logger.info("Applied changes.", { feature = "fix-usings", buffer = buffer })
+  logger.info("Applied changes.", { feature = "fix-usings" })
 end
 
 function M.execute()
@@ -25,7 +25,7 @@ function M.execute()
   local config = config_store.get_config()
 
   if omnisharp_client == nil then
-    logger.error("Omnisharp isn't attached to buffer.", { feature = "fix-usings", buffer = buffer })
+    logger.error("Omnisharp isn't attached to buffer.", { feature = "fix-usings" })
     return
   end
 
@@ -39,7 +39,7 @@ function M.execute()
     ApplyTextChanges = false,
   }
 
-  logger.info("Sending request to LSP Server", { feature = "fix-usings", buffer = buffer })
+  logger.info("Sending request to LSP Server", { feature = "fix-usings" })
   local response = omnisharp_client.request_sync("o#/fixusings", request, config.lsp.default_timeout, buffer)
   handle(response, buffer)
 end

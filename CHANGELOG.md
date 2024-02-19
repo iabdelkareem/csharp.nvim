@@ -13,6 +13,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Enhanced experience to select and launch debugging target
 - Commands to build and run dotnet projects
 
+## [0.2.0] - 2024-02-19
+
+### Added
+
+- Automatic debugger installation and configuration
+- Effortless debugging experience
+- Run projects
+- Support [launch settings](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/environments?view=aspnetcore-8.0#lsj)
+
+### Fixed
+
+- The logger is using an incorrect log level
+
 ## [0.1.0] - 2024-02-14
 
 ### Added

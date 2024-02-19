@@ -42,15 +42,12 @@ M.scope = {
 --- @param response RunFixAllResponse
 --- @param ctx LspHandlerContext<table>
 local function handle_run_fix_all(error, response, ctx)
-  -- vim.notify("response: " .. vim.inspect(response))
-  -- Handle workspace edit
-
   --- @type LspWorkspaceEdit
   local workspace_edits = { changes = {} }
 
   for _, change in pairs(response.Changes) do
     if change.ModificationType ~= 0 then
-      logger.error("Unsupported modification type.", { feature = "fix-all", buffer = ctx.bufnr, change = change })
+      logger.error("Unsupported modification type.", { feature = "fix-all", change = change })
       goto continue
     end
 
@@ -79,7 +76,7 @@ local function run_fix_all(client_id, buffer, params)
     ApplyChanges = false,
   }
 
-  logger.info("Sending runfixall request to LSP Server", { feature = "fix-all", request = request, buffer = buffer })
+  logger.info("Sending runfixall request to LSP Server", { feature = "fix-all", request = request })
   omnisharp_client.request("o#/runfixall", request, handle_run_fix_all, buffer)
 end
 
@@ -102,7 +99,7 @@ end
 function M.execute(params)
 
   if not M.scope[params.scope] then
-    logger.error("Invalid scope. Scope must be Document, Project or Solution", { feature = "fix-all", buffer = buffer })
+    logger.error("Invalid scope. Scope must be Document, Project or Solution", { feature = "fix-all", })
     return
   end
 
@@ -110,7 +107,7 @@ function M.execute(params)
   local omnisharp_client = utils.get_omnisharp_client(buffer)
 
   if omnisharp_client == nil then
-    logger.error("Omnisharp isn't attached to buffer.", { feature = "fix-all", buffer = buffer })
+    logger.error("Omnisharp isn't attached to buffer.", { feature = "fix-all", })
     return
   end
 
@@ -124,7 +121,7 @@ function M.execute(params)
     Scope = params.scope,
   }
 
-  logger.info("Sending getfixall request to LSP Server", { feature = "fix-all", request = request, buffer = buffer })
+  logger.info("Sending getfixall request to LSP Server", { feature = "fix-all", request = request, })
   omnisharp_client.request("o#/getfixall", request, handle_get_fix_all, buffer)
 end
 

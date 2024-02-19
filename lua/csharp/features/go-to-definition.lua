@@ -2,6 +2,10 @@ local M = {}
 local utils = require("csharp.utils")
 local get_metadata = require("csharp.features.get-metadata").execute
 
+--- @class OmnisharpDefinition
+--- @field Location OmnisharpLocation
+--- @field MetadataSource OmnisharpMetadataSource?
+
 --- @class GoToDefinitionResponse
 --- @field Definitions OmnisharpDefinition[]?
 
