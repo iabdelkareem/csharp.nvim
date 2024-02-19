@@ -84,7 +84,7 @@ The plugin will automatically install the debugger `netcoredbg` and configure it
   - _Support is limited to launch profiles with `CommandName == Project`._
 - Uses .NET CLI to build the debugee project.
 
-![debugging](https://gist.github.com/assets/13891133/ff442270-4c0e-46d6-bf8e-25deab8dec37)
+![debugging](https://github.com/iabdelkareem/csharp.nvim/assets/13891133/d4a18920-c7b0-4960-b6d2-2cb01673a29a)
 
 _In the illustration above, there's a solution with 3 projects, 2 of which are executable, and only one has launch settings file._
 
