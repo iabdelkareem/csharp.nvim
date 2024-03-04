@@ -2,24 +2,6 @@ local M = {}
 local config_store = require("csharp.config")
 
 --- @return string
---- @param buffer number
-local function get_root_dir(buffer)
-  local file_name = vim.api.nvim_buf_get_name(buffer)
-
-  if file_name:sub(-#"csx") == "csx" then
-    return file_name:match(".*/")
-  end
-
-  local root_dir = vim.fn.systemlist("fd -e sln . " .. vim.loop.cwd())[1]
-
-  if root_dir == nil then
-    root_dir = vim.loop.cwd()
-  end
-
-  return root_dir
-end
-
---- @return string
 local function get_omnisharp_cmd()
   local config = config_store.get_config().lsp
 
@@ -37,9 +19,7 @@ local function get_omnisharp_cmd()
   return package:get_install_path() .. "/omnisharp"
 end
 
-local function start_omnisharp(args)
-  local buffer = args.buf
-  local root_dir = get_root_dir(buffer)
+function M.start_omnisharp(buffer, root_dir)
   local omnisharp_cmd = get_omnisharp_cmd()
   local config = config_store.get_config().lsp
 
@@ -77,24 +57,8 @@ local function start_omnisharp(args)
   })
 end
 
-function M.setup()
-  if not config_store.get_config().lsp.enable then
-    return
-  end
-
-  local lsp_group = vim.api.nvim_create_augroup("CsharpNvim", { clear = false })
-
-  vim.api.nvim_create_autocmd("FileType", {
-    pattern = "cs",
-    callback = start_omnisharp,
-    group = lsp_group,
-    desc = "Starts omnisharp for c# files",
-  })
-end
-
 if _TEST then
-  M._get_root_dir = get_root_dir
-  M._start_omnisharp = start_omnisharp
+  M._start_omnisharp = M.start_omnisharp
   M._get_omnisharp_cmd = get_omnisharp_cmd
 end
 

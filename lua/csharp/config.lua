@@ -5,6 +5,7 @@ local default_config = {
   ---@class CsharpConfig.Lsp
   lsp = {
     enable = true,
+    use_omnisharp = true,
     --- @type string?
     cmd_path = "",
     enable_editor_config_support = true,
