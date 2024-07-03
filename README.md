@@ -8,6 +8,17 @@
 
 - Locally Install [fd](https://github.com/sharkdp/fd#installation).
 
+### Roslyn
+
+If your going to use Roslyn the LSP needs to be installed manually.
+
+1. Navigate to https://dev.azure.com/azure-public/vside/_artifacts/feed/vs-impl to see the latest package feed for `Microsoft.CodeAnalysis.LanguageServer`
+2. Locate the version matching your OS + Arch and click to open it. For example, `Microsoft.CodeAnalysis.LanguageServer.linux-x64` matches Linux-based OS in x64 architecture. Note that some OS/Arch specific packages may have an extra version ahead of the "core" non specific package.
+3. On the package page, click the "Download" button to begin downloading its `.nupkg`
+4. Unzip the `.nupkg` file. 
+5. Copy the contents of `<zip root>/content/LanguageServer/<yourArch/` to the nvim data directory `nvim-data/roslyn`
+6. To test it is working, `cd` into the aforementioned roslyn directory and invoke `dotnet Microsoft.CodeAnalysis.LanguageServer.dll --version`. It should output server's version.
+
 ## 🚀 Installation
 
 Using lazy.nvim:
@@ -23,6 +34,32 @@ Using lazy.nvim:
   config = function ()
       require("mason").setup() -- Mason setup must run before csharp
       require("csharp").setup()
+  end
+}
+```
+
+For roslyn
+
+```lua
+{
+  "iabdelkareem/csharp.nvim",
+  dependencies = {
+    "williamboman/mason.nvim", -- Required, automatically installs omnisharp
+    "mfussenegger/nvim-dap",
+    "Tastyep/structlog.nvim", -- Optional, but highly recommended for debugging
+  },
+  config = function ()
+      local exe = vim.fs.joinpath(
+            vim.fn.stdpath("data") --[[@as string]],
+            "roslyn",
+            "Microsoft.CodeAnalysis.LanguageServer.dll"
+        );
+        require("csharp").setup({
+            lsp = {
+                use_omnisharp = false,
+                cmd_path = exe
+            }
+        })
   end
 }
 ```
