@@ -16,7 +16,7 @@ If your going to use Roslyn the LSP needs to be installed manually.
 2. Locate the version matching your OS + Arch and click to open it. For example, `Microsoft.CodeAnalysis.LanguageServer.linux-x64` matches Linux-based OS in x64 architecture. Note that some OS/Arch specific packages may have an extra version ahead of the "core" non specific package.
 3. On the package page, click the "Download" button to begin downloading its `.nupkg`
 4. Unzip the `.nupkg` file. 
-5. Copy the contents of `<zip root>/content/LanguageServer/<yourArch/` to the nvim data directory `nvim-data/roslyn`
+5. Copy the contents of `<zip root>/content/LanguageServer/<yourArch/*` to a folder of your choice (e.g., the nvim data directory `$XDG_DATA_HOME/csharp/roslyn-lsp/`)
 6. To test it is working, `cd` into the aforementioned roslyn directory and invoke `dotnet Microsoft.CodeAnalysis.LanguageServer.dll --version`. It should output server's version.
 
 ## 🚀 Installation
@@ -27,38 +27,20 @@ Using lazy.nvim:
 {
   "iabdelkareem/csharp.nvim",
   dependencies = {
-    "williamboman/mason.nvim", -- Required, automatically installs omnisharp
+    "williamboman/mason.nvim", -- Optional, only if you want the plugin to automatically install omnisharp (not needed if you're going to use roslyn lsp)
     "mfussenegger/nvim-dap",
     "Tastyep/structlog.nvim", -- Optional, but highly recommended for debugging
   },
   config = function ()
-      require("mason").setup() -- Mason setup must run before csharp
-      require("csharp").setup()
-  end
-}
-```
-
-For roslyn
-
-```lua
-{
-  "iabdelkareem/csharp.nvim",
-  dependencies = {
-    "mfussenegger/nvim-dap",
-    "Tastyep/structlog.nvim", -- Optional, but highly recommended for debugging
-  },
-  config = function ()
-      local exe = vim.fs.joinpath(
-            vim.fn.stdpath("data") --[[@as string]],
-            "roslyn",
-            "Microsoft.CodeAnalysis.LanguageServer.dll"
-        );
-        require("csharp").setup({
-            lsp = {
-                use_omnisharp = false,
-                cmd_path = exe
-            }
-        })
+      require("mason").setup() -- Mason setup must run before csharp (only if it's a dependency)
+      require("csharp").setup({
+          lsp = {
+              roslyn = {
+                  enable = true,
+                  cmd_path = "path_to_your_roslyn_lsp_binary" -- vim.fs.joinpath(vim.fn.stdpath("data"), "/csharp/roslyn_lsp", "Microsoft.CodeAnalysis.LanguageServer.dll"),
+                  }
+              }
+          })
   end
 }
 ```
