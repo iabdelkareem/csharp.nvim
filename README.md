@@ -35,10 +35,13 @@ Using lazy.nvim:
       require("mason").setup() -- Mason setup must run before csharp (only if it's a dependency)
       require("csharp").setup({
           lsp = {
-              roslyn = {
+                omnisharp = { -- Optional, only if you want to use omnisharp as your LSP
+                  enable = true,
+                }
+                roslyn = { -- Optional, only if you want to use roslyn as your LSP
                   enable = true,
                   cmd_path = "path_to_your_roslyn_lsp_binary" -- vim.fs.joinpath(vim.fn.stdpath("data"), "/csharp/roslyn_lsp", "Microsoft.CodeAnalysis.LanguageServer.dll"),
-                  }
+                }
               }
           })
   end
@@ -51,10 +54,20 @@ Using lazy.nvim:
 -- These are the default values
 {
     lsp = {
-        -- When set to false, csharp.nvim won't launch omnisharp automatically.
-        enable = true,
-        -- When set, csharp.nvim won't install omnisharp automatically. Instead, the omnisharp instance in the cmd_path will be used.
-        cmd_path = nil,
+        -- Sets if you want to use omnisharp as your LSP
+        omnisharp = {
+            -- When set to false, csharp.nvim won't launch omnisharp automatically.
+            enable = true,
+            -- When set, csharp.nvim won't install omnisharp automatically. Instead, the omnisharp instance in the cmd_path will be used.
+            cmd_path = nil,
+        }
+        -- Sets if you want to use roslyn as your LSP
+        roslyn = {
+            -- When set to true, csharp.nvim will launch roslyn automatically.
+            enable = false,
+            -- Path to the roslyn LSP see 'Roslyn LSP Specific Prerequisites' above.
+            cmd_path = nil,
+        }
         -- The default timeout when communicating with omnisharp
         default_timeout = 1000,
         -- Settings that'll be passed to the omnisharp server
