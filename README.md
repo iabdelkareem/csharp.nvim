@@ -8,7 +8,7 @@
 
 - Locally Install [fd](https://github.com/sharkdp/fd#installation).
 
-### Roslyn
+### Roslyn LSP Specific Prerequisites
 
 If your going to use Roslyn the LSP needs to be installed manually.
 
