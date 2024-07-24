@@ -5,7 +5,7 @@ local default_config = {
     ---@class CsharpConfig.Lsp
     lsp = {
         omnisharp = {
-            enable = true,
+            enable = false,
             --- @type string?
             cmd_path = "",
         },
