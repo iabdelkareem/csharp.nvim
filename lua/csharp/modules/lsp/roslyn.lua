@@ -165,23 +165,27 @@ local function run_roslyn(exe, target)
     }
 
     vim.system(cmd, {
+        -- none windows platform is better to attach apparently but this is subjective and a bit untested
         detach = not vim.uv.os_uname().version:find("Windows"),
         stdout = function(_, data)
+            -- process didn't return a reponse correctly so fail out.
             if not data then
                 return
             end
 
-            -- try parse data as json
+            -- try parse data as json so we can get the pipename
             local success, json_obj = pcall(vim.json.decode, data)
             if not success then
                 return
             end
 
+            -- where we given a pipe to attach to
             local pipe_name = json_obj["pipeName"]
             if not pipe_name then
                 return
             end
 
+            -- lets attach to the process as start using the lsp
             vim.schedule(function()
                 lsp_start(pipe_name, target)
             end)
