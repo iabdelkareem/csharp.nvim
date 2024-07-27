@@ -3,6 +3,7 @@ local logger = require("csharp.log")
 local utils = require("csharp.utils")
 local dotnet_cli = require("csharp.modules.dotnet-cli")
 local _feature_name = "user-secrets"
+local _lua_pattern_guid = "%w+-%w+-%w+-%w+-%w+"
 
 -- Creates the user secret file if the same
 -- doesn't exists
@@ -22,10 +23,10 @@ end
 -- • {output_init_command} Output from init command
 --
 -- Returns a string with the user id or nil.
---- @param output_init_command string
+--- @param input string
 --- @return string | nil
-local function _extract_user_id_from_command_output(output_init_command)
-  return string.match(output_init_command, "Set UserSecretsId to '(.*)'")
+local function _extract_user_secret_id_from_input(input)
+  return string.match(input, _lua_pattern_guid)
 end
 
 local function _extract_user_id_from_project(project_path)
@@ -38,13 +39,19 @@ local function _extract_user_id_from_project(project_path)
   end
 
   for line in project_file:lines() do
-    user_id = string.match(line, "<UserSecretsId>(.*)</UserSecretsId>")
+    user_id = _extract_user_secret_id_from_input(line)
+
     if user_id then
       break;
     end
   end
 
   project_file:close()
+
+  if not user_id then
+    return user_id
+  end
+
   return tostring(user_id)
 end
 
@@ -56,10 +63,8 @@ end
 local function _init_secret(project_path)
   local output, _ = dotnet_cli.user_secrets("init", project_path)
 
-  logger.info("Output: ", { data = output })
-
   if output then
-    return _extract_user_id_from_command_output(output)
+    return _extract_user_secret_id_from_input(output)
   end
 end
 
@@ -91,7 +96,7 @@ local function _open_secret()
     end
   end
 
-  logger.info("Opening user secret", { feature = _feature_name })
+  logger.info("Opening user secret " .. user_secret_id, { feature = _feature_name })
 
   _open_secret_in_buffer(user_secret_id)
 end
