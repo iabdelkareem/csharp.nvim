@@ -8,8 +8,6 @@
 
 - Locally Install [fd](https://github.com/sharkdp/fd#installation).
 
-<<<<<<< Updated upstream
-=======
 ### Roslyn LSP Specific Prerequisites
 
 If your going to use Roslyn the LSP needs to be installed manually.
@@ -21,7 +19,6 @@ If your going to use Roslyn the LSP needs to be installed manually.
 5. Copy the contents of `<zip root>/content/LanguageServer/<yourArch/*` to a folder of your choice (e.g., the nvim data directory `$XDG_DATA_HOME/csharp/roslyn-lsp/`)
 6. To test it is working, `cd` into the aforementioned roslyn directory and invoke `dotnet Microsoft.CodeAnalysis.LanguageServer.dll --version`. It should output server's version.
 
->>>>>>> Stashed changes
 ## 🚀 Installation
 
 Using lazy.nvim:
@@ -35,13 +32,8 @@ Using lazy.nvim:
     "Tastyep/structlog.nvim", -- Optional, but highly recommended for debugging
   },
   config = function ()
-<<<<<<< Updated upstream
-      require("mason").setup() -- Mason setup must run before csharp
+      require("mason").setup() -- Mason setup must run before csharp, only if you want to use omnisharp
       require("csharp").setup()
-=======
-      require("mason").setup() -- Mason setup must run before csharp (only if it's a dependency)
-      require("csharp").setup({})
->>>>>>> Stashed changes
   end
 }
 ```
@@ -52,18 +44,25 @@ Using lazy.nvim:
 -- These are the default values
 {
     lsp = {
-<<<<<<< Updated upstream
-        -- When set to false, csharp.nvim won't launch omnisharp automatically.
-        enable = true,
-        -- When set, csharp.nvim won't install omnisharp automatically. Instead, the omnisharp instance in the cmd_path will be used.
-        cmd_path = nil,
-=======
         -- Sets if you want to use omnisharp as your LSP
         omnisharp = {
-            -- When set to false, csharp.nvim won't launch omnisharp automatically.
+        -- When set to false, csharp.nvim won't launch omnisharp automatically.
             enable = true,
             -- When set, csharp.nvim won't install omnisharp automatically. Instead, the omnisharp instance in the cmd_path will be used.
             cmd_path = nil,
+            -- The default timeout when communicating with omnisharp
+            default_timeout = 1000,
+            -- Settings that'll be passed to the omnisharp server
+            enable_editor_config_support = true,
+            organize_imports = true,
+            load_projects_on_demand = false,
+            enable_analyzers_support = true,
+            enable_import_completion = true,
+            include_prerelease_sdks = true,
+            analyze_open_documents_only = false,
+            enable_package_auto_restore = true,
+            -- Launches omnisharp in debug mode
+            debug = false,
         }
         -- Sets if you want to use roslyn as your LSP
         roslyn = {
@@ -72,20 +71,6 @@ Using lazy.nvim:
             -- Path to the roslyn LSP see 'Roslyn LSP Specific Prerequisites' above.
             cmd_path = nil,
         }
->>>>>>> Stashed changes
-        -- The default timeout when communicating with omnisharp
-        default_timeout = 1000,
-        -- Settings that'll be passed to the omnisharp server
-        enable_editor_config_support = true,
-        organize_imports = true,
-        load_projects_on_demand = false,
-        enable_analyzers_support = true,
-        enable_import_completion = true,
-        include_prerelease_sdks = true,
-        analyze_open_documents_only = false,
-        enable_package_auto_restore = true,
-        -- Launches omnisharp in debug mode
-        debug = false,
         -- The capabilities to pass to the omnisharp server
         capabilities = nil,
         -- on_attach function that'll be called when the LSP is attached to a buffer
