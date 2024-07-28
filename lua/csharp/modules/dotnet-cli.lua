@@ -47,4 +47,32 @@ function M.run(options)
   vim.api.nvim_set_current_win(current_window)
 end
 
+--- Paramters:
+--  • {command} Command that you want to execute, available commands are:
+--
+--    • `clear`  ~ Deletes all the application secrets
+--    • `init`   ~ Set a user secrets ID to enable secret storage
+--    • `list`   ~ Lists all the application secrets
+--    • `remove` ~ Removes the specified user secret
+--    • `set`    ~ Sets the user secret to the specified value
+--
+--  • {project_path} Path to project.
+--- @param command string
+--- @param project_path string
+--- @return string | nil
+function M.user_secrets(command, project_path)
+  local command_to_run = "dotnet user-secrets"
+
+  if not command then
+    logger.error("command" .. required_arg_message, { feature = "dotnet-cli" })
+    return
+  end
+
+  command_to_run = command_to_run .. " -p " .. project_path .. " " .. command
+
+  logger.debug("Executing: " .. command_to_run, { feature = "dotnet-cli" })
+  local user_secret_id, _ = execute_command(command_to_run)
+  return user_secret_id
+end
+
 return M
