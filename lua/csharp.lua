@@ -16,5 +16,5 @@ return {
   go_to_definition = require("csharp.features.go-to-definition").execute,
   debug_project = require("csharp.features.debugger").execute,
   run_project = require("csharp.features.code-runner").execute,
-  open_secret = require("csharp.features.user-secrets").open_secret,
+  view_user_secrets = require("csharp.features.user-secrets").view_user_secrets,
 }

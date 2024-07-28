@@ -121,6 +121,14 @@ Similar to the debugger, the plugin exposes the function `require("csharp").run_
 
 <hr>
 
+
+### View & Edit User Secrets
+
+You can use the `require("csharp").view_user_secrets()` to view and edit [user secrets](https://learn.microsoft.com/en-us/aspnet/core/security/app-secrets]
+Similar to the debugger, the plugin exposes the function `require("csharp").run_project()` that supports selection of an executable project, launch profile, builds and runs the project.
+
+<hr>
+
 ### Remove Unnecessary Using Statements (Omnisharp only)
 
 Removes all unnecessary using statements from a document. Trigger this feature via the Command `:CsharpFixUsings` or use the Lua function below.

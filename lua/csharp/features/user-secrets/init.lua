@@ -42,7 +42,7 @@ local function _extract_user_id_from_project(project_path)
     user_id = _extract_user_secret_id_from_input(line)
 
     if user_id then
-      break;
+      break
     end
   end
 
@@ -103,7 +103,7 @@ end
 
 -- Will try to open the secret from a project if exists,
 -- if not It will create a new one.
-function M.open_secret()
+function M.view_user_secrets()
   utils.run_async(_open_secret)
 end
 
