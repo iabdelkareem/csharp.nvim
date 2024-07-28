@@ -21,14 +21,6 @@ local config_store = require("csharp.config")
 --- @class GetProjectsRequest
 --- @field ExcludeSourceFiles boolean
 
---- @param error LspError?
---- @param result OmnisharpWorkspaceInformation
---- @param ctx LspHandlerContext<GetProjectsRequest>
---- @return nil
-local function handle(error, result, ctx)
-  vim.g.csharp.get_projects_callback(result)
-end
-
 --- @async
 --- @return OmnisharpWorkspaceInformation|nil
 local function get_workspace_information()

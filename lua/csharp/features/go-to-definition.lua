@@ -62,11 +62,11 @@ end
 
 function M.execute()
   local buffer = vim.api.nvim_get_current_buf()
-  local clients = vim.lsp.get_active_clients({ buffer = buffer })
+  local clients = vim.lsp.get_clients({ buffer = buffer })
   local omnisharp_client = utils.get_omnisharp_client(buffer)
 
   if omnisharp_client == nil then
-    vim.notify("Omnisharp not attached to buffer " .. buffer, vim.log.levels.DEBUG)
+    vim.notify("This feature is enabled only for Omnisharp. If you're using roslyn, please use vim.lsp.buf.definition() instead." .. buffer, vim.log.levels.ERROR)
     return
   end
 

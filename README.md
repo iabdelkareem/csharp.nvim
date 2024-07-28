@@ -8,6 +8,20 @@
 
 - Locally Install [fd](https://github.com/sharkdp/fd#installation).
 
+<<<<<<< Updated upstream
+=======
+### Roslyn LSP Specific Prerequisites
+
+If your going to use Roslyn the LSP needs to be installed manually.
+
+1. Navigate to https://dev.azure.com/azure-public/vside/_artifacts/feed/vs-impl to see the latest package feed for `Microsoft.CodeAnalysis.LanguageServer`
+2. Locate the version matching your OS + Arch and click to open it. For example, `Microsoft.CodeAnalysis.LanguageServer.linux-x64` matches Linux-based OS in x64 architecture. Note that some OS/Arch specific packages may have an extra version ahead of the "core" non specific package.
+3. On the package page, click the "Download" button to begin downloading its `.nupkg`
+4. Unzip the `.nupkg` file.
+5. Copy the contents of `<zip root>/content/LanguageServer/<yourArch/*` to a folder of your choice (e.g., the nvim data directory `$XDG_DATA_HOME/csharp/roslyn-lsp/`)
+6. To test it is working, `cd` into the aforementioned roslyn directory and invoke `dotnet Microsoft.CodeAnalysis.LanguageServer.dll --version`. It should output server's version.
+
+>>>>>>> Stashed changes
 ## 🚀 Installation
 
 Using lazy.nvim:
@@ -21,8 +35,13 @@ Using lazy.nvim:
     "Tastyep/structlog.nvim", -- Optional, but highly recommended for debugging
   },
   config = function ()
+<<<<<<< Updated upstream
       require("mason").setup() -- Mason setup must run before csharp
       require("csharp").setup()
+=======
+      require("mason").setup() -- Mason setup must run before csharp (only if it's a dependency)
+      require("csharp").setup({})
+>>>>>>> Stashed changes
   end
 }
 ```
@@ -33,10 +52,27 @@ Using lazy.nvim:
 -- These are the default values
 {
     lsp = {
+<<<<<<< Updated upstream
         -- When set to false, csharp.nvim won't launch omnisharp automatically.
         enable = true,
         -- When set, csharp.nvim won't install omnisharp automatically. Instead, the omnisharp instance in the cmd_path will be used.
         cmd_path = nil,
+=======
+        -- Sets if you want to use omnisharp as your LSP
+        omnisharp = {
+            -- When set to false, csharp.nvim won't launch omnisharp automatically.
+            enable = true,
+            -- When set, csharp.nvim won't install omnisharp automatically. Instead, the omnisharp instance in the cmd_path will be used.
+            cmd_path = nil,
+        }
+        -- Sets if you want to use roslyn as your LSP
+        roslyn = {
+            -- When set to true, csharp.nvim will launch roslyn automatically.
+            enable = false,
+            -- Path to the roslyn LSP see 'Roslyn LSP Specific Prerequisites' above.
+            cmd_path = nil,
+        }
+>>>>>>> Stashed changes
         -- The default timeout when communicating with omnisharp
         default_timeout = 1000,
         -- Settings that'll be passed to the omnisharp server
@@ -100,7 +136,7 @@ Similar to the debugger, the plugin exposes the function `require("csharp").run_
 
 <hr>
 
-### Remove Unnecessary Using Statements
+### Remove Unnecessary Using Statements (Omnisharp only)
 
 Removes all unnecessary using statements from a document. Trigger this feature via the Command `:CsharpFixUsings` or use the Lua function below.
 
@@ -137,7 +173,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
 
 <hr>
 
-### Fix All
+### Fix All (Omnisharp only)
 
 This feature allows developers to efficiently resolve a specific problem across multiple instances in the codebase (e.g., a document, project, or solution) with a single command. You can run this feature using the Command `:CsharpFixAll` or the Lua function below. When the command runs, it'll launch a dropdown menu asking you to choose the scope in which you want the plugin to search for fixes before it presents the different options to you.
 
@@ -154,6 +190,7 @@ require("csharp").fix_all()
 Similar to [omnisharp-extended-lsp.nvim](https://github.com/Hoffs/omnisharp-extended-lsp.nvim), this feature allows developers to navigate to the definition of a symbol in the codebase with decompilation support for external code.
 
 ```lua
+-- Not needed with roslyn LSP, use vim.lsp.buf.definition()
 require("csharp").go_to_definition()
 ```
 
@@ -173,11 +210,3 @@ require("csharp").go_to_definition()
 ## :heart_eyes: Contributing & Feature Suggestions
 
 I'd love to hear your ideas and suggestions for new features! Feel free to create an issue and share your thoughts. We can't wait to discuss them and bring them to life!
-
-## TODO
-
-- [x] Setup Debugger
-- [ ] Solution Explorer
-- [ ] Switching Solution
-- [ ] Support Source Generator
-- [ ] Support Razor

@@ -107,7 +107,7 @@ function M.execute(params)
   local omnisharp_client = utils.get_omnisharp_client(buffer)
 
   if omnisharp_client == nil then
-    logger.error("Omnisharp isn't attached to buffer.", { feature = "fix-all", })
+    vim.notify("This feature is enabled only for Omnisharp." .. buffer, vim.log.levels.ERROR)
     return
   end
 

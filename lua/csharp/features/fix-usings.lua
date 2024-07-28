@@ -25,7 +25,7 @@ function M.execute()
   local config = config_store.get_config()
 
   if omnisharp_client == nil then
-    logger.error("Omnisharp isn't attached to buffer.", { feature = "fix-usings" })
+    vim.notify("This feature is enabled only for Omnisharp." .. buffer, vim.log.levels.ERROR)
     return
   end
 
