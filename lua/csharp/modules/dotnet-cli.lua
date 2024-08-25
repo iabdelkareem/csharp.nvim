@@ -4,8 +4,9 @@ local logger = require("csharp.log")
 local function execute_command(cmd)
   local file = io.popen(cmd .. " 2>&1")
   local output = file:read("*all")
-  local _, _, exit_code = file:close()
-  return output, exit_code
+
+  local success, _, exit_code = file:close()
+  return output, success and 0 or exit_code
 end
 
 --- @param target string File path to solution or project
