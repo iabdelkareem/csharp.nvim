@@ -114,8 +114,9 @@ function M.set_defaults(user_config)
   }
 
   for index, key in ipairs(deprecated_omnisharp_keys) do
-    if merged_config.lsp.omnisharp[key] ~= nil then
-      merged_config.lsp.omnisharp[key] = nil
+    if merged_config.lsp[key] ~= nil then
+      merged_config.lsp[key] = nil
+      require("csharp.log").error("Use of deprecated key 'lsp."..key.."'. Use 'lsp.omnisharp."..key.."' instead.")
     end
   end
 
