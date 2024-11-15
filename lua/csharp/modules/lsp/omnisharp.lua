@@ -9,8 +9,8 @@ local function get_root_dir(buffer)
   if file_name:sub(-#"csx") == "csx" then
     return file_name:match(".*/")
   end
-
-  local root_dir = vim.fn.systemlist("fd -e sln . " .. vim.loop.cwd())[1]
+  
+  local root_dir = vim.fn.systemlist((vim.fn.executable("fdfind") == 1 and "fdfind" or "fd") .. " -e sln . " .. vim.loop.cwd())[1]
 
   if root_dir == nil then
     root_dir = vim.loop.cwd()
