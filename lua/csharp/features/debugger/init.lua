@@ -17,7 +17,10 @@ local function apply_launch_profile(debug_config, launch_profile)
   end
 
   if launch_profile.commandLineArgs then
-    vim.tbl_deep_extend("force", debug_config.args, vim.split(launch_profile.commandLineArgs, " ", { trimempty = true }))
+    local args = vim.split(launch_profile.commandLineArgs, " ", { trimempty = true })
+    for _, arg in ipairs(args) do
+      table.insert(debug_config.args, arg)
+    end
   end
 
   if launch_profile.applicationUrl then
