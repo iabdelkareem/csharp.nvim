@@ -1,6 +1,7 @@
 local M = {}
 local config_store = require("csharp.config")
 local dap = require("dap")
+local utils = require("csharp.utils")
 
 function M.get_debug_adapter()
   local config = config_store.get_config().dap
@@ -22,7 +23,12 @@ function M.get_debug_adapter()
     package:install()
   end
 
-  local path = package:get_install_path() .. "/netcoredbg"
+  local path = utils.join_paths(package:get_install_path(), "netcoredbg")
+
+  -- Netcoredbg puts the executable in a different spot
+  if vim.loop.os_uname().sysname == "Windows_NT" then
+    path = utils.join_paths(path, "netcoredbg.exe")
+  end
 
   dap.adapters.coreclr = {
     type = "executable",

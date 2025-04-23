@@ -48,4 +48,12 @@ function M.run_async(fn)
   end
 end
 
+--- @param paths to join
+--- @return string with combined paths
+function M.join_paths(...)
+  local separator = package.config:sub(1, 1)
+  local paths = {...}
+  return table.concat(paths, separator)
+end
+
 return M

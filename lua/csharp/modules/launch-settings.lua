@@ -1,6 +1,7 @@
 local M = {}
 local logger = require("csharp.log")
 local ui = require("csharp.ui")
+local utils = require("csharp.utils")
 
 --- @class DotNetLaunchProfile
 --- @field name string
@@ -32,7 +33,7 @@ end
 --- @param project_folder string
 --- @return DotNetLaunchProfile[]
 local function get_launch_profiles(project_folder)
-  local file_name = project_folder .. "/Properties/launchSettings.json"
+  local file_name = utils.join_paths(project_folder, "Properties", "launchSettings.json")
   local launch_settings = readFileWithoutBom(file_name)
 
   if launch_settings == nil then

@@ -101,3 +101,24 @@ describe("omnisharp_text_changes_to_text_edits", function()
     assert.are.same(expected, result)
   end)
 end)
+
+describe("join_paths", function()
+  local test_cases = {
+    { sep = "/",  input = {"home", "user", "docs"},  expected = "home/user/docs",  desc = "Linux-style" },
+    { sep = "\\", input = {"C:", "Users", "User"},   expected = "C:\\Users\\User", desc = "Windows-style" },
+    { sep = "/",  input = {"var", "log", "app"},    expected = "var/log/app",     desc = "Another Linux" }
+  }
+
+  for _, case in ipairs(test_cases) do
+      it("should join the paths in: " .. case.desc, function()
+          local original_config = package.config
+          package.config = case.sep .. "\n"
+
+          local result = utils.join_paths(table.unpack(case.input))
+          
+          assert.are.equal(case.expected, result)
+
+          package.config = original_config
+      end)
+  end
+end)

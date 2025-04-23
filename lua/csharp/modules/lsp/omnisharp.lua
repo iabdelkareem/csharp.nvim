@@ -1,5 +1,6 @@
 local M = {}
 local config_store = require("csharp.config")
+local utils = require("csharp.utils")
 
 --- @return string
 --- @param buffer number
@@ -34,7 +35,7 @@ local function get_omnisharp_cmd()
     package:install()
   end
 
-  return package:get_install_path() .. "/omnisharp"
+  return utils.join_paths(package:get_install_path(), "omnisharp")
 end
 
 local function start_omnisharp(buffer)

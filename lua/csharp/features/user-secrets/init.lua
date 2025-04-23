@@ -8,7 +8,7 @@ local _lua_pattern_guid = "%w+-%w+-%w+-%w+-%w+"
 -- Creates the user secret file if the same
 -- doesn't exists
 local function _ensure_secret_exists(user_secret_folder_path)
-  local full_file_path = user_secret_folder_path .. "/secrets.json"
+  local full_file_path = utils.join_paths(user_secret_folder_path, "secrets.json")
   local file, _ = io.open(full_file_path, "r+")
 
   if not file then
