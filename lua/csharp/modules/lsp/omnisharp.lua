@@ -34,7 +34,7 @@ local function get_omnisharp_cmd()
     package:install()
   end
 
-  return package:get_install_path() .. "/omnisharp"
+  return vim.fn.expand("$MASON/packages/omnisharp/omnisharp")
 end
 
 local function start_omnisharp(buffer)
